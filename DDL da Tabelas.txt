@@ -1,0 +1,62 @@
+-- Table: public.tab_clientes
+
+-- DROP TABLE public.tab_clientes;
+
+CREATE TABLE public.tab_clientes
+(
+    id bigint NOT NULL,
+    cadastro_pessoa character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    cadastro_ativo boolean DEFAULT true,
+    data_cadastro timestamp with time zone DEFAULT CURRENT_DATE,
+    nome character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    registro_pessoa character varying(255) COLLATE pg_catalog."default",
+    tipo_pessoa integer NOT NULL,
+    CONSTRAINT tab_clientes_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.tab_clientes
+    OWNER to postgres;
+	
+	
+-- Table: public.tab_clientes_telefones
+
+-- DROP TABLE public.tab_clientes_telefones;
+
+CREATE TABLE public.tab_clientes_telefones
+(
+    cliente_id bigint NOT NULL,
+    telefones_id bigint NOT NULL,
+    CONSTRAINT uk_tnsmd14qv3xknfavbtgnvicmm UNIQUE (telefones_id),
+    CONSTRAINT fkit4ive1y9nl91r9gcb0w9ocrb FOREIGN KEY (telefones_id)
+        REFERENCES public.telefone (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fkoxonkw6hl828iwgjgb66i8qau FOREIGN KEY (cliente_id)
+        REFERENCES public.tab_clientes (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.tab_clientes_telefones
+    OWNER to postgres;
+	
+
+-- Table: public.telefone
+
+-- DROP TABLE public.telefone;
+
+CREATE TABLE public.telefone
+(
+    id bigint NOT NULL,
+    telefone character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT telefone_pkey PRIMARY KEY (id)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE public.telefone
+    OWNER to postgres;
